@@ -1,0 +1,114 @@
+{
+    "tasks": [
+        {
+            "taskName": "Run project",
+            "command": "nim",
+            "args": ["c","--run","--deepcopy:on", "src/${workspaceFolderBasename}.nim"],
+            "options": {
+                "cwd": "${workspaceRoot}"
+            },
+            "type": "shell",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "taskName": "Build project",
+            "command": "nim",
+            "args": ["c",
+            // "--deepcopy:on",
+            // "-d:ssl",
+            "-d:metrics",
+            "--mm:refc",
+            "--threads:on",
+            // "-d:normDebug",
+            "src/${workspaceFolderBasename}.nim"],
+            "options": {
+                "cwd": "${workspaceRoot}"
+            },
+            "type": "shell",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "taskName": "Release project",
+            "command": "nim",
+            "args": ["c", "--outdir:bin/macOS",
+            "-d:release","-d:danger","-d:metrics", "--mm:refc","--threads:on",
+            "-d:chronicles_log_level:debug",
+            // "-d:\"chronicles_sinks=textlines[stdout,file(${workspaceFolderBasename}.log)]\"",
+            "-d:\"chronicles_timestamps:UnixTime\"",
+            "src/${workspaceFolderBasename}.nim"],
+            "options": {
+                "cwd": "${workspaceRoot}"
+            },
+            "type": "shell",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "taskName": "Build linux",
+            "command": "nim",
+            "args": ["c",
+            "--cc:clang", 
+            "--clang.exe=\"zigcc\"",
+            "--clang.linkerexe=\"zigcc\"", 
+            "--passc:\"-target x86_64-linux-gnu\"",
+            "--passl:\"-target x86_64-linux-gnu\"",
+            "--passl:\"-static\"",
+            "--forceBuild:on",
+            "--deepcopy:on",
+ //           "-d:nimDebugDlOpen",
+            "--os:linux",
+            "--opt:speed",
+            "-d:release","-d:danger","-d:metrics", "--mm:refc","--threads:on",
+            "-d:chronicles_log_level:debug",
+            // "-d:\"chronicles_sinks=textlines[stdout,file(${workspaceFolderBasename}.log)]\"",
+            "-d:\"chronicles_timestamps:UnixTime\"",
+            "--out:bin/linux/${workspaceFolderBasename}","src/${workspaceFolderBasename}.nim"
+        ],
+            "options": {
+                "cwd": "${workspaceRoot}"
+            },
+            "type": "shell",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "taskName": "Release linux",
+            "command": "nim",
+            "args": ["c",
+            "--cc:clang", 
+            "--clang.exe=\"zigcc\"",
+            "--clang.linkerexe=\"zigcc\"", 
+            "--passc:\"-target x86_64-linux-gnu\"",
+            "--passl:\"-target x86_64-linux-gnu\"",
+            "--forceBuild:on",
+            "--deepcopy:on",
+            "--os:linux",
+            "--opt:speed",
+            "-d:release","-d:danger","-d:metrics", "--mm:refc","--threads:on",
+            "-d:chronicles_log_level:debug",
+            // "-d:\"chronicles_sinks=textlines[stdout,file(${workspaceFolderBasename}.log)]\"",
+            "-d:\"chronicles_timestamps:UnixTime\"",
+            "--out:bin/linux/${workspaceFolderBasename}","src/${workspaceFolderBasename}.nim"
+        ],
+            "options": {
+                "cwd": "${workspaceRoot}"
+            },
+            "type": "shell",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}
+
